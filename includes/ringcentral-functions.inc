@@ -40,29 +40,42 @@ function ringcentral_sdk() {
 	return $controller;
 }
 
-function set_opt_in_out($mobile, $process) {
+
+function send_mms ($to_sms_number, $sms_message_body, $file_with_path) {
+
+	// Include Libraries
 	require('includes/vendor/autoload.php');
-	$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ );
+
+	$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 	$dotenv->load();
 
-	$sendingMobile = $_ENV['RC_MOBILE_SENDING_NUMBER'] ;
+	$fromNumber = $_ENV['RC_MOBILE_SENDING_NUMBER'];
 
 	$controller = ringcentral_sdk();
+	$platform = $controller['platform'];
+	$sdk = $controller['SDK'];
 
-	$queryParams = array(
-		'from' => array( $sendingMobile, ),
-		'to' => array( $mobile, ),
-		'optStatus' => array( $process ),
-		'source' => array( "api" )
+	$bodyParams = array(
+		'from' => array( 'phoneNumber' => $fromNumber ),
+		'to'   => array( array('phoneNumber' => $to_sms_number ) ),
+		'text' => $sms_message_body,
 	);
+	$endpoint = "/restapi/v1.0/account/~/extension/~/mms";
 
 	try {
-		$response = $controller['platform']->patch("/restapi/v2/accounts/~/sms/consents",
-			$queryParams
-		);
-		$success = true;
-	} catch (Exception $e) {
-		$success = false;
+		$request = $sdk->createMultipartBuilder()
+			->setBody($bodyParams)
+			->add(fopen($file_with_path, 'r'))
+			->request($endpoint);
+
+		$resp = $platform->sendRequest($request);
+		$message_id = $resp->json()->id;
+
 	}
-	return $success;
+	catch (\RingCentral\SDK\Http\ApiException $e) {
+		// Getting error messages using PHP native interface
+		print 'Expected HTTP Error: ' . $e;
+		print '  Message: ' . $e->apiResponse->response()->error() . PHP_EOL;
+	}
+	return $message_id;
 }
