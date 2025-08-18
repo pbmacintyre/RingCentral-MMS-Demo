@@ -61,6 +61,7 @@ function send_mms ($to_sms_number, $sms_message_body, $file_with_path) {
 		'text' => $sms_message_body,
 	);
 	$endpoint = "/restapi/v1.0/account/~/extension/~/mms";
+	$message_id = "" ;
 
 	try {
 		$request = $sdk->createMultipartBuilder()

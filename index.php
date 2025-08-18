@@ -38,7 +38,7 @@ function show_form($message, $print_again = false) {
             </tr>
             <tr class="CustomTable">
                 <td class="left_col">
-                    <p style='display: inline;' >SMS message body:</p>
+                    <p style='display: inline;' >MMS message body:</p>
                 </td>
                 <td class="right_col">
                     <textarea name="sms_message_body" ></textarea>
@@ -46,7 +46,7 @@ function show_form($message, $print_again = false) {
             </tr>
             <tr class="CustomTable">
                 <td class="left_col">
-                    <p style='display: inline;' >Select file to attach to SMS Message:</p>
+                    <p style='display: inline;' >Select file to attach to MMS Message:</p>
                 </td>
                 <td class="right_col">
                     <input type="file" name="file_to_mms" id="file_to_mms">

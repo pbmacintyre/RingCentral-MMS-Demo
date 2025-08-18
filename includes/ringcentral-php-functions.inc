@@ -92,8 +92,8 @@ function upload_file ($target_file) {
 		// Get file extension
 		$fileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
-		// Check file size (optional, e.g., limit to 5MB)
-		if ($_FILES["file_to_mms"]["size"] > 5000000) {
+		// Check file size (limit to 1.5MB)
+		if ($_FILES["file_to_mms"]["size"] > 1500000) {
 			$_SESSION['message'] = "Sorry, your file is too large.";
 			$uploadOk = 0;
 		}
@@ -124,50 +124,17 @@ function upload_file ($target_file) {
 }
 function get_allowed_file_types() {
 	$allowed_image_file_types = array(
-		"jpg",
-		"png",
-		"jpeg",
-		"pdf",
-		"bmp",
-		"gif",
-		"tiff",
-		"tif",
-		"svg",
-		"webp",
+		"jpg", "png", "jpeg", "pdf", "bmp", "gif", "tiff", "tif", "svg", "webp",
 	);
 	$allowed_video_file_types = array(
-		"3gp",
-		"mp4",
-		"m4v",
-		"mpeg",
-		"mpg",
-		"avi",
-		"flv",
-		"wmv",
-		"mov",
-		"qt",
-		"webm",
-		"ogg",
+		"3gp", "mp4", "m4v", "mpeg", "mpg", "avi", "flv", "wmv", "mov", "qt", "webm", "ogg",
 	);
 	$allowed_audio_file_types = array(
-		"mp3",
-		"m4a",
-		"oga",
-		"wav",
-		"arm",
-		"3gp",
+		"mp3", "m4a", "oga", "wav", "arm","3gp",
 	);
 	$allowed_misc_file_types = array(
-		"vcf",
-		"vcard",
-		"zip",
-		"gzip",
-		"rtf",
-		"pdf",
-		"html",
-		"txt",
-		"csv",
-		"ics",
+		"vcf", "vcard", "zip", "gzip", "rtf", "pdf", "html", "txt", "csv", "ics",
 	);
-	return array_unique(array_merge($allowed_image_file_types, $allowed_video_file_types, $allowed_audio_file_types, $allowed_misc_file_types));
+	return array_unique(array_merge($allowed_image_file_types, $allowed_video_file_types,
+		$allowed_audio_file_types, $allowed_misc_file_types));
 }
